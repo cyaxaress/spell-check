@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Response;
+
 class ApiResponse
 {
 
-    static function tokenResponse($token)
+    static function tokenResponse($token): Response
     {
         $obj = [
             'success' => true,
@@ -15,7 +17,7 @@ class ApiResponse
         return response($obj, 200);
     }
 
-    static function errorResponse($errorMessage, $code = 400, $data = [])
+    static function errorResponse($errorMessage, $code = 400, $data = []): Response
     {
         $obj = [
             'success' => false,
@@ -25,7 +27,7 @@ class ApiResponse
         return response($obj, $code);
     }
 
-    public static function spellCheckResult(array $resp)
+    public static function spellCheckResult(array $resp): Response
     {
         $obj = [
             'success' => true,
