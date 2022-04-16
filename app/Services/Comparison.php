@@ -8,10 +8,15 @@ class Comparison
     {
         $resp = [];
         foreach ($messages as $message) {
-            $message["distance"] = 4;
-            $message["similarity"] = 97;
+            $message["distance"] = levenshtein($message["original_message"], $message["message"]);
+            $message["similarity"] = ceil(self::calcSimilarity($message["distance"], $message["original_message"], $message["message"]) * 100);
             $resp[] = $message;
         }
         return $resp;
+    }
+
+    public static function calcSimilarity($distance ,$text1 , $text2)
+    {
+        return 1 - $distance / max([strlen($text1), strlen($text2)]);
     }
 }
