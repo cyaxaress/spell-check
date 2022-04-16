@@ -12,6 +12,12 @@ class Spellcheck
     {
         $client = new Client();
         $resp = $client->request("get", self::$url . "v2/check?text={$string}&language={$lang}");
-        return json_decode($resp->getBody()->getContents());
+        $resp = json_decode($resp->getBody()->getContents());
+        $corrected = $string;
+        foreach ($resp->matches as $match){
+            $spell = substr($string, $match->offset, $match->length);
+            $corrected = str_replace($spell, $match->replacements[0]->value, $corrected);
+        }
+        return $corrected;
     }
 }
