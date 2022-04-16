@@ -11,12 +11,6 @@ class SpellcheckController extends Controller
     public function check(Request $request)
     {
         $messages = XMLService::toArray($request->getContent());
-        $resp = [];
-        foreach ($messages as $message){
-            $message["original_message"] = $message["message"];
-            $message["message"] = Spellcheck::check($message["message"]);
-            $resp[] = $message;
-        }
-        return ApiResponse::spellCheckResult($resp);
+        return ApiResponse::spellCheckResult(Spellcheck::checkAndCorrect($messages));
     }
 }
