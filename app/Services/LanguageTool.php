@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Interfaces\SpellChecker;
 use GuzzleHttp\Client;
 
-class LanguageTool
+class LanguageTool implements SpellChecker
 {
     private string $url = "https://languagetool.org/api/";
 
