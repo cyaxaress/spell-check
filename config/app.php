@@ -192,6 +192,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'XmlParser' => Orchestra\Parser\Xml\Facade::class,
+        'SpeckChecker' => \App\Facades\SpellChecker::class
     ])->toArray(),
 
 ];
