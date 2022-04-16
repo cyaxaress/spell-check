@@ -27,7 +27,7 @@ class ComparisonRequest extends FormRequest
             "error_messages" => "required|array|min:1",
             "error_messages.*.title" => "required",
             "error_messages.*.module" => "required",
-            "error_messages.*.language"=> "required",
+            "error_messages.*.language"=> "required|array|min:1",
             "error_messages.*.language.code"=> "required",
             "error_messages.*.message" => "required",
             "error_messages.*.original_message" => "required",
