@@ -22,4 +22,5 @@ Route::group(["prefix" => "v1","namespace" => "App\\Http\\Controllers\\"], funct
 
 Route::group(["prefix" => "v1","namespace" => "App\\Http\\Controllers\\", "middleware" => []], function(\Illuminate\Routing\Router $router){
     $router->post("spellCheck", "SpellcheckController@check");
+    $router->post("getDifferences", "ComparisonController@getDifferences");
 });

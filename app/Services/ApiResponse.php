@@ -36,4 +36,14 @@ class ApiResponse
         ];
         return response($obj, 200);
     }
+
+    public static function successResponse(string $key, $data): Response
+    {
+        $obj = [
+            'success' => true,
+            'code' => 200,
+            $key => $data
+        ];
+        return response($obj, 200);
+    }
 }

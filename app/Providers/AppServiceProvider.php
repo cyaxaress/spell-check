@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\LanguageTool;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

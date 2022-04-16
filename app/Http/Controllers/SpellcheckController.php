@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Facades\SpellChecker;
@@ -9,7 +10,7 @@ use Illuminate\Http\Response;
 
 class SpellcheckController extends Controller
 {
-    public function check(Request $request):Response
+    public function check(Request $request): Response
     {
         $messages = XMLService::toArray($request->getContent());
         return ApiResponse::spellCheckResult(SpellChecker::checkAndCorrect($messages));
