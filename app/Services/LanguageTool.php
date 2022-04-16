@@ -9,26 +9,25 @@ class LanguageTool implements SpellChecker
 {
     private string $url = "https://languagetool.org/api/";
 
-    public function checkAndCorrect(array $messages): array
+    public function checkAndCorrect(string $message, string $language): string
     {
-        $resp = [];
-        foreach ($messages as $message) {
-            $message["original_message"] = $message["message"];
-            $message["message"] = $this->check($message["message"], $message["language"]["code"]);
-            $resp[] = $message;
-        }
-        return $resp;
+        $matches = $this->getMisspellMatches($message, $language);
+        return $this->fixMisspells($matches, $message);
     }
 
-    public function check(string $string, string $lang): string
+    public function getMisspellMatches(string $string, $lang)
     {
         $client = new Client();
         $resp = $client->request("get", $this->url . "v2/check?text={$string}&language={$lang}");
-        $resp = json_decode($resp->getBody()->getContents());
+        return json_decode($resp->getBody()->getContents())->matches;
+    }
+
+    public function fixMisspells(array $matches, string $string): string
+    {
         $corrected = $string;
-        foreach ($resp->matches as $match) {
-            $spell = substr($string, $match->offset, $match->length);
-            $corrected = str_replace($spell, $match->replacements[0]->value, $corrected);
+        foreach ($matches as $match) {
+            $misspell = substr($string, $match->offset, $match->length);
+            $corrected = str_replace($misspell, $match->replacements[0]->value, $corrected);
         }
         return $corrected;
     }

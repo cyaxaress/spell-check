@@ -15,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(config_path("spell-checker.php"), "SpellChecker");
-        $this->app->bind('SpeckChecker', function () {
+        $this->app->bind('SpellChecker', function () {
+            // Here we want to bind our SpellChecker provider class.
+            // you can change selected provider in SpellChecker config file
             $provider = config("SpellChecker.provider");
             if (class_implements($provider, SpellChecker::class))
                 return new $provider;

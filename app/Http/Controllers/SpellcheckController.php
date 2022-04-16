@@ -13,6 +13,12 @@ class SpellcheckController extends Controller
     public function check(Request $request): Response
     {
         $messages = XMLService::toArray($request->getContent());
-        return ApiResponse::successResponse("error_messages", SpellChecker::checkAndCorrect($messages));
+        $resp = [];
+        foreach ($messages as $message){
+            $message["original_message"] = $message["message"];
+            $message["message"] = SpellChecker::checkAndCorrect($message["message"], $message["language"]["code"]);
+            $resp[] = $message;
+        }
+        return ApiResponse::successResponse("error_messages", $resp);
     }
 }
