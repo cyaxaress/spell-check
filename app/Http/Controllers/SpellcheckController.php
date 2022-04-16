@@ -15,7 +15,7 @@ class SpellcheckController extends Controller
         foreach ($messages as $message){
             $message["original_message"] = $message["message"];
             // TODO set language
-            $message["language"]["code"] = "en-US";
+            $message["language"]["code"] = "en-GB";
             $message["message"] = Spellcheck::check($message["message"]);
             $resp[] = $message;
         }
