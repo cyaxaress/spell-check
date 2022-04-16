@@ -3,5 +3,5 @@ namespace App\Interfaces;
 
 interface SpellChecker
 {
-    public function checkAndCorrect(string $message, string $language);
+    public function fix(string $message, string $language);
 }

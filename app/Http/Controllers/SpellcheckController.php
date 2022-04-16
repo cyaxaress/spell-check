@@ -16,7 +16,7 @@ class SpellcheckController extends Controller
         $resp = [];
         foreach ($messages as $message){
             $message["original_message"] = $message["message"];
-            $message["message"] = SpellChecker::checkAndCorrect($message["message"], $message["language"]["code"]);
+            $message["message"] = SpellChecker::fix($message["message"], $message["language"]["code"]);
             $resp[] = $message;
         }
         return ApiResponse::successResponse("error_messages", $resp);

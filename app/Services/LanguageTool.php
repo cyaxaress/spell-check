@@ -7,28 +7,33 @@ use GuzzleHttp\Client;
 
 class LanguageTool implements SpellChecker
 {
-    private string $url = "https://languagetool.org/api/";
+    const URL = "https://languagetool.org/api/";
+    private string $message, $language, $corrected;
+    private array $matches;
 
-    public function checkAndCorrect(string $message, string $language): string
+    public function fix(string $message, string $language): string
     {
-        $matches = $this->getMisspellMatches($message, $language);
-        return $this->fixMisspells($matches, $message);
+        $this->message = $message;
+        $this->language = $language;
+        $this->getMisspellMatches();
+        $this->applyReplacements();
+        return $this->corrected;
     }
 
-    public function getMisspellMatches(string $string, $lang)
+    private function getMisspellMatches()
     {
         $client = new Client();
-        $resp = $client->request("get", $this->url . "v2/check?text={$string}&language={$lang}");
-        return json_decode($resp->getBody()->getContents())->matches;
+        $resp = $client->request("get", self::URL . "v2/check?text={$this->message}&language={$this->language}");
+        $this->matches = json_decode($resp->getBody()->getContents())->matches;
     }
 
-    public function fixMisspells(array $matches, string $string): string
+    private function applyReplacements()
     {
-        $corrected = $string;
-        foreach ($matches as $match) {
-            $misspell = substr($string, $match->offset, $match->length);
+        $corrected = $this->message;
+        foreach ($this->matches as $match) {
+            $misspell = substr($this->message, $match->offset, $match->length);
             $corrected = str_replace($misspell, $match->replacements[0]->value, $corrected);
         }
-        return $corrected;
+        $this->corrected = $corrected;
     }
 }
