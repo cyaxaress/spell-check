@@ -6,13 +6,12 @@ use Illuminate\Http\Response;
 
 class ApiResponse
 {
-
-    static function tokenResponse($token): Response
+    public static function successResponse(string $key, $data): Response
     {
         $obj = [
             'success' => true,
             'code' => 200,
-            'token' => $token
+            $key => $data
         ];
         return response($obj, 200);
     }
@@ -25,25 +24,5 @@ class ApiResponse
             "data" => $data
         ];
         return response($obj, $code);
-    }
-
-    public static function spellCheckResult(array $resp): Response
-    {
-        $obj = [
-            'success' => true,
-            'code' => 200,
-            "error_messages" => $resp
-        ];
-        return response($obj, 200);
-    }
-
-    public static function successResponse(string $key, $data): Response
-    {
-        $obj = [
-            'success' => true,
-            'code' => 200,
-            $key => $data
-        ];
-        return response($obj, 200);
     }
 }
