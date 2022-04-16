@@ -14,9 +14,9 @@ class TokenController extends Controller
             "username" => $request->Username,
             "password" => $request->Password,
         ])) {
-
+            return ApiResponse::errorResponse("incorrect username or password");
         }
         $token = auth()->user()->createToken('API Token')->accessToken->token;
-        return ApiResponse::tokenResponse($token);
+        return ApiResponse::successResponse("token", $token);
     }
 }
